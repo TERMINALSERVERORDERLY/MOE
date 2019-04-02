@@ -1,16 +1,13 @@
-language: java 
+language: java
 
 jdk:
-  - oraclejdk7
   - oraclejdk8
 
-before_install:
-  - sudo rm -f /etc/mavenrc
-  - wget http://www.us.apache.org/dist/maven/maven-3/3.1.1/binaries/apache-maven-3.1.1-bin.tar.gz
-  - tar -zxvf apache-maven-3.1.1-bin.tar.gz
-  - export M2_HOME=$PWD/apache-maven-3.1.1
-  - export PATH=$M2_HOME/bin:$PATH
-  - mvn --version
+# https://github.com/travis-ci/travis-ci/issues/3259#issuecomment-130860338
+addons:
+  apt:
+    packages:
+      - oracle-java8-installer
 
 install: mvn -P!standard-with-extra-repos -U install clean --fail-never --quiet -DskipTests=true -Dinvoker.skip=true
 
@@ -32,8 +29,6 @@ branches:
 
 notifications:
   email: cgruber@google.com
-
-sudo: required
 
 cache:
   directories:
